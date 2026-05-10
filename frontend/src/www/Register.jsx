@@ -10,6 +10,7 @@ function Register({ onClose }) {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [github, setgit] = useState("");
+  const navigate = useNavigate();
 
   const handelregister = async (e) => {
     e.preventDefault();
