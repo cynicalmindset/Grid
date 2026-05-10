@@ -29,3 +29,5 @@ dist-ssr
 .env.production.local
 .env
 node_modules/
+supabase/
+supabase.js/
