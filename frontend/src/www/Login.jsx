@@ -1,6 +1,7 @@
 //import React from 'react';
 import { useState } from "react";
 import "../css/register.css";
+import { supabase } from "../supabase.js";
 import { useNavigate } from "react-router-dom";
 // import Register from './Register';
 // import { useState } from 'react';
