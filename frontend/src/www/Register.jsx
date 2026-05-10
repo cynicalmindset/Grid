@@ -1,4 +1,5 @@
 //import React from 'react';
+import { useNavigate } from "react-router-dom";
 import Alert from "../components/alert.jsx";
 import { supabase } from "../supabase.js";
 import "../css/register.css";
@@ -36,6 +37,7 @@ function Register({ onClose }) {
         return;
       }
       console.log("User Created");
+      navigate("/city");
     } catch (err) {
       console.log(err.message);
     }
@@ -81,10 +83,10 @@ function Register({ onClose }) {
         <button className="btn" onClick={handelregister}>
           Book Your Plot
         </button>
-        {/* <button onClick={()=>setshowlogin(true)} className='login'>Already have an Building? login</button> */}
-        <button className="login">
+        <button onClick={()=>setshowlogin(true)} className='login'>Already have an Building? login</button>
+        {/* <button className="login">
           Preregister Now for getting special building
-        </button>
+        </button> */}
       </div>
     </div>
   );
