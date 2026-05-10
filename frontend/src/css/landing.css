@@ -1,0 +1,311 @@
+* {
+  margin: 0;
+  padding: 0;
+  /* overflow-x: hidden; */
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow-x: hidden;
+
+  background:
+    linear-gradient(rgb(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, #50a9e5, #e4f3ff);
+
+  background-size:
+    100px 100px,
+    100px 100px,
+    100% 100%;
+}
+.info {
+  height: 100vh;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 6vh;
+  gap: 5vh;
+}
+.open {
+  padding: 10px 20px 10px 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: #81c1ec;
+  color: #e3f3ff;
+  font-size: 20px;
+  border-radius: 40px;
+  opacity: 0.7;
+  backdrop-filter: blur(10px);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Sego";
+}
+.title {
+  text-align: center;
+  font-weight: 900;
+  font-size: 60px;
+  color: rgb(255, 255, 255);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Sego";
+}
+.gyan {
+  text-align: center;
+  font-weight: 200;
+  font-size: 20px;
+  color: white;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Sego";
+}
+
+.email-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 500px;
+  padding: 8px;
+  border-radius: 50px;
+
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.email-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  color: white;
+  font-size: 16px;
+  padding: 12px 16px;
+}
+
+.email-box input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.email-box button {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 40px;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Sego";
+  background: white;
+  color: black;
+  font-weight: 400;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.image {
+  position: absolute;
+  bottom: 0;
+  width: auto;
+  height: 40vh;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.imgg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.logo {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Sego";
+}
+.login-btn {
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255);
+  color: black;
+  cursor: pointer;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Sego";
+}
+.git-btn {
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(49, 49, 49);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Sego";
+}
+/*  Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .open {
+    margin-top: 26px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+  .gyan {
+    font-size: 10px;
+    padding: 0 20px;
+  }
+  .email-box {
+    width: 100%;
+    height: 30px;
+    margin-top: 20px;
+  }
+  .email-box input {
+    font-size: 12px;
+  }
+  .email-box button {
+    font-size: 10px;
+    font-weight: 500;
+    height: 35px;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 15px;
+  }
+
+  .navbar {
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  .logo {
+    font-size: 10px;
+  }
+
+  .login-btn {
+    padding: 6px 16px;
+    font-size: 10px;
+    font-weight: 400;
+    align-items: center;
+    border-radius: 10px;
+  }
+  .git-btn {
+    padding: 6px 16px;
+    font-size: 10px;
+    font-weight: 400;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+  .open {
+    font-size: 10px;
+    padding: 6px 14px;
+  }
+}
+@media (max-height: 768px) {
+  .title {
+    font-size: 40px;
+  }
+  .gyan {
+    font-size: 10px;
+    padding: 0 20px;
+  }
+  .email-box {
+    width: 100%;
+    height: 30px;
+    margin-top: 20px;
+  }
+  .email-box input {
+    font-size: 14px;
+  }
+  .email-box button {
+    font-size: 10px;
+    font-weight: 500;
+    height: 35px;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 15px;
+  }
+
+  .navbar {
+    width: 95%;
+    margin: 10px auto;
+  }
+
+  .logo {
+    font-size: 14px;
+  }
+
+  .login-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    min-height: 30px;
+    border-radius: 10px;
+  }
+  .git-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    min-height: 30px;
+    border-radius: 10px;
+  }
+
+  .open {
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+
+  .image {
+    height: 40vh;
+  }
+}
+.btns {
+  gap: 10px;
+  display: flex;
+}
