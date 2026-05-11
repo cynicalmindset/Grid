@@ -22,11 +22,11 @@ function Landing() {
   return (
     <div className="container">
       <div className="navbar">
-        <div className="logo">Gitcity.</div>
+        <div className="logo">Grid.</div>
 
         <div className="btns">
           <button className="login-btn" onClick={() => setShowRegister(true)}>
-            Pre Register
+            Register
           </button>
 
           <button
