@@ -107,3 +107,17 @@
   display: flex;
   cursor: pointer;
 }
+@media (max-height: 768px) {
+  .reg {
+    font-size: 25px;
+  }
+  .input {
+    font-size: 12px;
+  }
+  .modal {
+    max-width: 60%;
+    min-width: 30%;
+    min-height: 70%;
+    gap: 8px;
+  }
+}

@@ -15,7 +15,7 @@ function Landing() {
     }
   };
 
-  const url = "https://github.com/cynicalmindset/GitCity";
+  const url = "https://github.com/cynicalmindset/Grid";
 
   const [showRegister, setShowRegister] = useState(false);
 

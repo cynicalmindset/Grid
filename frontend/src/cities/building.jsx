@@ -1,10 +1,9 @@
-import React from "react";
 import { CanvasTexture } from "three";
+import { RigidBody } from "@react-three/rapier";
 import { useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { Text } from "@react-three/drei";
 function makeFacadeTexture() {
   const canvas = document.createElement("canvas");
   canvas.width = 64;
@@ -101,33 +100,35 @@ function Building({ lambai, address, type, github }) {
   }
 
   return (
-    <group position={address}>
-      <mesh name="base" position={[0, 0.25, 0]}>
-        <boxGeometry args={[3.5, 0.5, 3.5]} />
-        <meshStandardMaterial color="#000000" />
-      </mesh>
+    <RigidBody type="fixed" colliders="cuboid">
+      <group position={address}>
+        <mesh name="base" position={[0, 0.25, 0]}>
+          <boxGeometry args={[3.5, 0.5, 3.5]} />
+          <meshStandardMaterial color="#000000" />
+        </mesh>
 
-      {/* <mesh position={[0,0.40,1.8]}>
+        {/* <mesh position={[0,0.40,1.8]}>
         <boxGeometry args={[2.6,0.45,0.08]}></boxGeometry>
         <meshStandardMaterial color="#050505" emissive={c2} emissiveIntensity={0.4}></meshStandardMaterial>
       </mesh> */}
 
-      <mesh name={github} ref={meshRef} position={[0, lambai / 2 + 0.5, 0]}>
-        <boxGeometry args={[3, lambai, 3]} />
-        <meshStandardMaterial
-          map={texture}
-          emissiveMap={emissive}
-          emissive={c2}
-          emissiveIntensity={0.5}
-          color="white"
-        />
-      </mesh>
+        <mesh name={github} ref={meshRef} position={[0, lambai / 2 + 0.5, 0]}>
+          <boxGeometry args={[3, lambai, 3]} />
+          <meshStandardMaterial
+            map={texture}
+            emissiveMap={emissive}
+            emissive={c2}
+            emissiveIntensity={0.5}
+            color="white"
+          />
+        </mesh>
 
-      <mesh position={[0, lambai + 0.75, 0]}>
-        <boxGeometry args={[2.2, 0.5, 2.2]} />
-        <meshStandardMaterial color="#000000" />
-      </mesh>
-    </group>
+        <mesh position={[0, lambai + 0.75, 0]}>
+          <boxGeometry args={[2.2, 0.5, 2.2]} />
+          <meshStandardMaterial color="#000000" />
+        </mesh>
+      </group>
+    </RigidBody>
   );
 }
 

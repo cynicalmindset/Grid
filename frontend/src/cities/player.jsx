@@ -1,152 +1,153 @@
+import { RigidBody, CapsuleCollider } from "@react-three/rapier";
+import nipplejs from "nipplejs";
 import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-// import { max } from "three/tsl";
-import walksound from "../assets/Sounds/foots.wav";
-import breath from "../assets/Sounds/running-breath.wav";
 
 export default function Player({ playerpos }) {
-  const speed = useRef(0);
-  const head = useRef(0);
-  const bobTime = useRef(0);
-  const sway = useRef(0);
+  const bodyRef = useRef();
+  const yaw = useRef(0);
+  const pitch = useRef(0);
+  useEffect(() => {
+    const mouse = (e) => {
+      const sensi = 0.01;
+      yaw.current -= e.movementX * sensi;
+      pitch.current -= e.movementY * sensi;
+
+      pitch.current = Math.max(
+        -Math.PI / 2,
+        Math.min(Math.PI / 2, pitch.current),
+      );
+    };
+    document.addEventListener("mousemove", mouse);
+    return () => {
+      document.removeEventListener("mousemove", mouse);
+    };
+  }, []);
+
   const move = useRef({
-    forward: false,
-    backward: false,
+    front: false,
+    back: false,
     left: false,
     right: false,
   });
 
-  const walkRef = useRef(null);
-  const breathRef = useRef(null);
-
   useEffect(() => {
-    walkRef.current = new Audio(walksound);
-    walkRef.current.loop = true;
-    walkRef.current.volume = 0.6;
-    breathRef.current = new Audio(breath);
-    breathRef.current.loop = true;
-    // breathRef.current.volume += 1;
-  }, []);
-
-  useEffect(() => {
-    const unlock = () => {
-      walkRef.current?.play().then(() => {
-        walkRef.current.pause();
-        walkRef.current.currentTime = 0;
-      });
-      window.removeEventListener("click", unlock);
-    };
-
-    window.addEventListener("click", unlock);
-  }, []);
-
-  useEffect(() => {
-    const unlock2 = () => {
-      breathRef.current?.play().then(() => {
-        breathRef.current.pause();
-        breathRef.current.currentTime = 0;
-      });
-      window.removeEventListener("click", unlock2);
-    };
-
-    window.addEventListener("click", unlock2);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.code === "KeyW") move.current.forward = true;
-      if (e.code === "KeyS") move.current.backward = true;
+    const down = (e) => {
+      if (e.code === "KeyW") move.current.front = true;
+      if (e.code === "KeyS") move.current.back = true;
       if (e.code === "KeyA") move.current.left = true;
       if (e.code === "KeyD") move.current.right = true;
     };
 
-    const handleKeyUp = (e) => {
-      if (e.code === "KeyW") move.current.forward = false;
-      if (e.code === "KeyS") move.current.backward = false;
+    const up = (e) => {
+      if (e.code === "KeyW") move.current.front = false;
+      if (e.code === "KeyS") move.current.back = false;
       if (e.code === "KeyA") move.current.left = false;
       if (e.code === "KeyD") move.current.right = false;
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
     };
   }, []);
 
-  useFrame((state, delta) => {
-    const isMoving =
-      move.current.forward ||
-      move.current.backward ||
-      move.current.left ||
-      move.current.right;
-    const camera = state.camera;
-    const maxsped = 0.2;
-    const acc = 0.003;
-    const fri = 0.88;
+  useFrame((state) => {
+    const body = bodyRef.current;
+    if (!body) return;
     const direction = new THREE.Vector3();
+    const camera = state.camera;
     const forward = new THREE.Vector3();
     camera.getWorldDirection(forward);
     forward.y = 0;
     forward.normalize();
-    const walk = walkRef.current;
-    const breath = breathRef.current;
-
-    if (walk) {
-      if (isMoving) {
-        if (walk.paused && breath.paused) walk.play();
-        breath.play();
-        walk.playbackRate = 0.9 + speed.current * 4;
-      } else {
-        if (!walk.paused && !breath.paused) {
-          walk.pause();
-          breath.pause();
-          walk.currentTime = 0;
-          breath.currentTime = 0;
-        }
-      }
-    }
-
     const right = new THREE.Vector3();
     right.crossVectors(forward, camera.up).normalize();
 
-    if (move.current.forward) direction.add(forward);
-    if (move.current.backward) direction.sub(forward);
+    if (move.current.front) direction.add(forward);
+    if (move.current.back) direction.sub(forward);
     if (move.current.left) direction.sub(right);
     if (move.current.right) direction.add(right);
 
-    if (isMoving) {
-      speed.current = Math.min(speed.current + acc * delta * 60, maxsped);
-    } else {
-      speed.current *= Math.pow(fri, delta * 60);
-      // camera.rotation.x = -1
+    if (direction.lengthSq() > 0) {
+      direction.normalize();
     }
 
-    if (direction.length() > 0) direction.normalize();
-    camera.position.add(direction.multiplyScalar(speed.current));
+    const speed = 8;
 
-    if (isMoving && speed.current > 0.1) {
-      bobTime.current += delta * 14; // bob frequency
-      const bobY = Math.sin(bobTime.current) * 0.04; // bob height
-      const bobX = Math.cos(bobTime.current / 2) * 0.01; // slight side sway
-      camera.position.y = 1 + bobY;
-      sway.current = bobX * 0.001;
-      camera.position.x += sway.current;
-      // camera.rotation.x -= 0.0002
-    } else {
-      camera.position.y += (1 - camera.position.y) * 0.1;
-      bobTime.current = 0;
-      sway.current = 0;
-    }
+    const vel = body.linvel();
 
+    body.setLinvel(
+      {
+        x: direction.x * speed,
+        y: vel.y,
+        z: direction.z * speed,
+      },
+      true,
+    );
+    const pos = body.translation();
+    camera.rotation.order = "YXZ";
+    camera.position.x = pos.x;
+    camera.position.z = pos.z;
+    camera.position.y = pos.y;
+    camera.rotation.y = yaw.current;
+    camera.rotation.x = pitch.current;
     playerpos({
-      x: camera.position.x,
-      z: camera.position.z,
+      x: pos.x,
+      z: pos.z,
     });
   });
 
-  return null;
+  useEffect(() => {
+    const zone = document.getElementById("joystick");
+    if (!zone) return;
+    const nipple = nipplejs.create({
+      zone,
+      mode: "static",
+      position: {
+        left: "70px",
+        top: "70px",
+      },
+      color: "white",
+      size: 120,
+    });
+    nipple.on("move", (_, data) => {
+      if (!data) return;
+      const x = data.vector.x;
+      const y = data.vector.y;
+      move.current.front = y > 0.3;
+      move.current.back = y < -0.3;
+      move.current.right = x > 0.3;
+      move.current.left = x < -0.3;
+    });
+    nipple.on("end", () => {
+      move.current.front = false;
+      move.current.back = false;
+      move.current.right = false;
+      move.current.left = false;
+    });
+    return () => {
+      nipple.destroy();
+    };
+  }, []);
+
+  return (
+    <RigidBody
+      ref={bodyRef}
+      mass={1}
+      position={[0, 3, 0]}
+      enabledRotations={[false, false, false]}
+    >
+      <CapsuleCollider args={[0.5, 0.5]} />
+
+      <mesh>
+        <capsuleGeometry args={[0.5, 1]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
+    </RigidBody>
+  );
 }
