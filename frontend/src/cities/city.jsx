@@ -26,7 +26,17 @@ function City() {
   const [gridSize, setGridSize] = useState(1);
   const spacing = 16;
   const objs = useRef();
+  const [gitdata, setgitdata] = useState(null);
 
+  useEffect(() => {
+    if (!hovered) return;
+    setgitdata(null);
+    fetch(`https://api.github.com/users/${hovered}`, {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}` },
+    })
+      .then((r) => r.json())
+      .then((data) => setgitdata(data));
+  }, [hovered]);
   useEffect(() => {
     const fetchUsers = async () => {
       const { data, error } = await supabase.from("profiles").select("*");
@@ -143,18 +153,52 @@ function City() {
             fontFamily: "monospace",
           }}
         >
-          <h3 style={{ margin: 0, color: "#ff0000", fontSize: "18px" }}>
-            {hovered}
-          </h3>
-          <p style={{ marginTop: "8px", opacity: 0.7, fontSize: "14px" }}>
-            Github Developer
-          </p>
+          {gitdata ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginBottom: "10px",
+                }}
+              >
+                <img
+                  src={gitdata.avatar_url}
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "50%",
+                    border: "2px solid #ff0000",
+                  }}
+                />
+                <h3 style={{ margin: 0, color: "#ff0000", fontSize: "16px" }}>
+                  {hovered}
+                </h3>
+              </div>
+              <p style={{ margin: "0 0 8px", opacity: 0.7, fontSize: "12px" }}>
+                {gitdata.bio || "Github Developer"}
+              </p>
+              <p style={{ margin: "4px 0", fontSize: "13px" }}>
+                Repos: {gitdata.public_repos} repos
+              </p>
+              <p style={{ margin: "4px 0", fontSize: "13px" }}>
+                follow: {gitdata.followers} followers
+              </p>
+            </>
+          ) : (
+            <p style={{ opacity: 0.7, fontSize: "13px" }}>Loading...</p>
+          )}
         </div>
       )}
-
       <Canvas
         style={{ height: "100vh" }}
         camera={{ position: [0, 1.5, 5], fov: 75 }}
+        onClick={() => {
+          if (hovered) {
+            window.open(`https://github.com/${hovered}`, "_blank");
+          }
+        }}
       >
         <Physics gravity={[0, -9.8, 0]}>
           <Stats />
