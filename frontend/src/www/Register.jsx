@@ -37,7 +37,7 @@ function Register({ onClose }) {
         alert(profileError.message);
         return;
       }
-      console.log("User Created");
+      alert("Welcome to Grid");
       navigate("/city");
     } catch (err) {
       console.log(err.message);
@@ -84,7 +84,9 @@ function Register({ onClose }) {
         <button className="btn" onClick={handelregister}>
           Book Your Plot
         </button>
-        <button onClick={()=>setshowlogin(true)} className='login'>Already have an Building? login</button>
+        <button onClick={() => setshowlogin(true)} className="login">
+          Already have an Building? login
+        </button>
         {/* <button className="login">
           Preregister Now for getting special building
         </button> */}

@@ -9,6 +9,8 @@ export default function Cityinstance({ allpos }) {
 
   useEffect(() => {
     const dummy = new THREE.Object3D();
+    if (!baseRef.current || !bodyRef.current) return; // add this
+    if (!baseRef.current.setMatrixAt) return;
 
     for (let i = 0; i < allpos.length; i++) {
       const h = allpos[i][3];
@@ -34,7 +36,7 @@ export default function Cityinstance({ allpos }) {
     );
 
     // console.log("type sample:", allpos[0][4], allpos[1][4], allpos[2][4])
-  }, []);
+  }, [allpos]);
 
   return (
     <group>

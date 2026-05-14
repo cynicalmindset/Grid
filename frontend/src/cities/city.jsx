@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-
 import { RigidBody } from "@react-three/rapier";
 import { blockpos, floors, gridS, lcoalpos } from "./Math.js";
 import { Physics } from "@react-three/rapier";
@@ -10,6 +9,7 @@ import Player from "./player.jsx";
 import Pointer from "./Pointer.jsx";
 import { supabase } from "../supabase.js";
 import music from "../assets/Sounds/bg.mp3";
+import Cityinstance from "./cityinstance.jsx";
 
 const musicmain = new Audio(music);
 musicmain.loop = true;
@@ -100,6 +100,7 @@ function City() {
 
   return (
     <>
+      {allpos.length > 0 && <Cityinstance allpos={allpos} />}
       <div
         id="joystick"
         style={{
