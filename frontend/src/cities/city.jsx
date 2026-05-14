@@ -102,6 +102,17 @@ function City() {
         }}
       ></div>
       <div
+        id="look-joystick"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          width: "140px",
+          height: "140px",
+          zIndex: 1000,
+        }}
+      ></div>
+      <div
         style={{
           position: "fixed",
           top: "50%",

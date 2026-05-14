@@ -11,7 +11,9 @@ function Landing() {
       setShowRegister(true);
     } else {
       console.log("Sending email:", email);
-      setShowRegister(true);
+      alert(
+        "sorry this service is unavab at the moment , wait for next update ot connect",
+      );
     }
   };
 
