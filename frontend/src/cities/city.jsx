@@ -9,7 +9,7 @@ import Player from "./player.jsx";
 import Pointer from "./Pointer.jsx";
 import { supabase } from "../supabase.js";
 import music from "../assets/Sounds/bg.mp3";
-import Cityinstance from "./cityinstance.jsx";
+import { useNavigate } from "react-router-dom";
 
 const musicmain = new Audio(music);
 musicmain.loop = true;
@@ -18,13 +18,16 @@ document.addEventListener("click", () => {
   musicmain.play();
 });
 
-function City() {
+function City(props) {
   const [hovered, sethovered] = useState(null);
   const [playerpos, setplayerpos] = useState({ x: 0, z: 0 });
+  const [spawn, setspawn] = useState([0, 3, 0]);
   const [blocks, setBlocks] = useState([]);
   const [allpos, setAllpos] = useState([]);
   const [gridSize, setGridSize] = useState(1);
+  const navigate = useNavigate();
   const spacing = 16;
+
   const objs = useRef();
   const [gitdata, setgitdata] = useState(null);
 
@@ -90,6 +93,24 @@ function City() {
         }
       }
 
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const username = data.find((p) => p.id === user.id);
+      const mypos = pos.find((p) => p[4] === username?.github);
+      console.log("my-position: ", mypos);
+      console.log("metadata:", user?.user_metadata);
+      console.log("pos sample:", pos[0], pos[1], pos[2]); // see what p[4] looks like
+      if (mypos) {
+        await supabase
+          .from("profiles")
+          .update({ x: mypos[0], z: mypos[2] })
+          .eq("id", user.id);
+        setTimeout(() => {
+          setspawn([mypos[0], 3, mypos[2] + 6]);
+        }, 1000);
+      }
+
       setBlocks(newBlocks);
       setGridSize(gs);
       setAllpos(pos);
@@ -100,7 +121,22 @@ function City() {
 
   return (
     <>
-      {allpos.length > 0 && <Cityinstance allpos={allpos} />}
+      <button
+        onClick={() => props.onDashboard()}
+        style={{
+          position: "fixed",
+          top: "16px",
+          left: "16px",
+          zIndex: 1000,
+          padding: "8px 16px",
+          background: "rgba(0,0,0,0.7)",
+          color: "white",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}
+      >
+        Dashboard
+      </button>
       <div
         id="joystick"
         style={{
@@ -201,14 +237,14 @@ function City() {
           }
         }}
       >
+        <PointerLockControls />
         <Physics gravity={[0, -9.8, 0]}>
-          <Stats />
-          <ambientLight intensity={1} />
+          <ambientLight intensity={0.8} />
           <Sky
             distance={450000}
             sunPosition={[0, -1, 0]}
-            inclination={0}
-            azimuth={0.25}
+            inclination={5}
+            azimuth={0.5}
           />
           <Stars radius={100} depth={50} count={1000} factor={4} fade />
           <directionalLight intensity={0.2} position={[50, 40, -100]} />
@@ -223,7 +259,7 @@ function City() {
               const pos = blockpos(i, gridSize, spacing);
               const dx = pos[0] - playerpos.x;
               const dz = pos[2] - playerpos.z;
-              if (dx * dx + dz * dz > 400) return null;
+              if (dx * dx + dz * dz > 800) return null;
               return (
                 <group key={i}>
                   <Block users={blockUsers} position={pos} />
@@ -342,7 +378,7 @@ function City() {
             return lights;
           })()}
 
-          <Player playerpos={setplayerpos} />
+          <Player playerpos={setplayerpos} spawn={spawn} />
         </Physics>
       </Canvas>
     </>

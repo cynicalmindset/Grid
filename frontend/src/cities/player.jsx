@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function Player({ playerpos }) {
+export default function Player({ playerpos, spawn }) {
   const bodyRef = useRef();
   const yaw = useRef(0);
   const pitch = useRef(0);
@@ -133,7 +133,7 @@ export default function Player({ playerpos }) {
     <RigidBody
       ref={bodyRef}
       mass={1}
-      position={[0, 3, 0]}
+      position={spawn}
       enabledRotations={[false, false, false]}
     >
       <CapsuleCollider args={[0.5, 0.5]} />

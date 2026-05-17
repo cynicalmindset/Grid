@@ -1,5 +1,5 @@
-import React from "react";
 import Building from "./building.jsx";
+import Building2 from "./building2.jsx";
 import { floors, lcoalpos } from "./Math.js";
 
 function Block({ users, position }) {
@@ -19,26 +19,36 @@ function Block({ users, position }) {
     let type;
     if (f < 5) {
       type = "b2";
-    } else if (f < 15) {
+    } else if (f < 8) {
       type = "b1";
-    } else if (f < 30) {
+    } else if (f < 13) {
       type = "b3";
     } else {
       type = "b4";
     }
+    let builds;
+    if (f < 15) {
+      builds = "build1";
+    } else {
+      builds = "build2";
+    }
 
     // const centerx = 0;
     // const centerz = 0;
-    building.push(
-      <Building
-        key={i}
-        lambai={h}
-        address={[x, 0, z]}
-        type={type}
-        github={git}
-      ></Building>,
-    );
     //      building.push(
+    building.push(
+      builds === "build2" ? (
+        <Building key={i} lambai={h} address={[x, 0, z]} github={git} />
+      ) : (
+        <Building2
+          key={i}
+          type={type}
+          address={[x, 0, z]}
+          github={git}
+          lambai={h}
+        />
+      ),
+    );
     // <group key="light">
 
     //   <mesh position={[-4, 1.5, -4]}>

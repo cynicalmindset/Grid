@@ -14,6 +14,18 @@ function Register({ onClose }) {
 
   const handelregister = async (e) => {
     e.preventDefault();
+    if (!email || !password || !github) {
+      alert("enter all details");
+      return;
+    }
+
+    const res = await fetch(`https://api.github.com/users/${github}`, {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}` },
+    });
+    if (!res.ok) {
+      alert("GitHub username not found!");
+      return;
+    }
 
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -38,7 +50,7 @@ function Register({ onClose }) {
         return;
       }
       alert("Welcome to Grid");
-      navigate("/city");
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }

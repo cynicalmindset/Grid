@@ -26,8 +26,8 @@ function Login({ onClose }) {
       }
 
       console.log("Login Success");
-      navigate("/city");
       console.log(data);
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
