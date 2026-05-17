@@ -22,7 +22,7 @@ function Landing() {
   const [showRegister, setShowRegister] = useState(false);
 
   return (
-    <div className="container">
+    <div className="container-main">
       <div className="navbar">
         <div className="logo">Grid.</div>
 

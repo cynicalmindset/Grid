@@ -4,7 +4,7 @@
   /* overflow-x: hidden; */
 }
 
-.container {
+.container-main {
   height: 100vh;
   width: 100%;
   display: flex;
