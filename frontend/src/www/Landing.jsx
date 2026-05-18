@@ -1,10 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../css/landing.css";
 import img from "../assets/building.png";
 import Register from "./Register.jsx";
+import { supabase } from "../supabase.js";
 
 function Landing() {
   const [email, setEmail] = useState("");
+  const [countt, setcount] = useState(0);
+
+  useEffect(() => {
+    const fetchcount = async () => {
+      const { count, error } = await supabase.from("profiles").select("*", {
+        count: "exact",
+        head: true,
+      });
+      if (!error) {
+        setcount(count);
+      }
+    };
+    fetchcount();
+  }, []);
 
   const handleClick = () => {
     if (!email.trim()) {
@@ -42,7 +57,7 @@ function Landing() {
       {showRegister && <Register onClose={() => setShowRegister(false)} />}
 
       <div className="info">
-        <div className="open">Opensource</div>
+        <div className="open">{countt}+ citizen</div>
 
         <div className="title">
           Code build <br /> Cities.
