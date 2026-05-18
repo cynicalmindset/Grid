@@ -174,8 +174,8 @@ function City(props) {
         id="look-joystick"
         style={{
           position: "fixed",
-          bottom: "20px",
-          right: "20px",
+          bottom: "40px",
+          right: "40px",
           width: "140px",
           height: "140px",
           zIndex: 1000,

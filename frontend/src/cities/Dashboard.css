@@ -1,6 +1,6 @@
 .dashmain {
   background-color: #1d1d1d;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   padding: 20px;
   display: flex;
@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: row;
   gap: 50px;
+  margin-top: 50px
 }
 .dash-second {
   display: flex;
@@ -37,7 +38,8 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
-  margin-top: 20px;
+  background-color: #1d1d1d;
+  margin-top: 5px;
   top: 0;
 }
 .dash-btn {
@@ -45,6 +47,7 @@
   background-color: white;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-weight: 600;
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 8px;

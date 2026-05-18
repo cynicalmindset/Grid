@@ -80,7 +80,7 @@ export default function Dashboard(props) {
         </div>
       </div>
       <div className="dash-first">
-        <div className="h-64 w-64">
+        <div className="md:h-64 md:w-64 w-30 h-30">
           {" "}
           <img src={pfp} className="h-full w-full object-cover rounded-2xl" />
         </div>
@@ -126,7 +126,7 @@ export default function Dashboard(props) {
           value={form.external}
           onChange={(e) => setform({ ...form, external: e.target.value })}
         />
-        <h1 className="text-white text-[20px] mt-[80px] ">
+        <h1 className="text-white text-[10px] mt-[80px] text-center ">
           this project is completely opensource and if you think its not upto
           the mark , feel free to contribute
         </h1>
