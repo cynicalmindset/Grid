@@ -9,27 +9,49 @@ import Player from "./player.jsx";
 import Pointer from "./Pointer.jsx";
 import { supabase } from "../supabase.js";
 import music from "../assets/Sounds/bg.mp3";
-import { useNavigate } from "react-router-dom";
-
-const musicmain = new Audio(music);
-musicmain.loop = true;
-musicmain.volume = 0.15;
-document.addEventListener("click", () => {
-  musicmain.play();
-});
 
 function City(props) {
   const [hovered, sethovered] = useState(null);
   const [playerpos, setplayerpos] = useState({ x: 0, z: 0 });
   const [spawn, setspawn] = useState([0, 3, 0]);
+  const [info, setinfo] = useState(null);
   const [blocks, setBlocks] = useState([]);
   const [allpos, setAllpos] = useState([]);
   const [gridSize, setGridSize] = useState(1);
-  const navigate = useNavigate();
   const spacing = 16;
 
   const objs = useRef();
   const [gitdata, setgitdata] = useState(null);
+  const openlink = (url) => {
+    if (!url || url.trim() === "") {
+      alert("no link found");
+      return;
+    }
+    const fullUrl = url.startsWith("http") ? url : `https://${url}`;
+    const link = document.createElement("a");
+    link.href = fullUrl;
+    link.target = "_blank";
+    link.rel = "noreferrer noopener";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  useEffect(() => {
+    if (!hovered) return;
+    setinfo(null);
+    supabase
+      .from("profiles")
+      .select("*")
+      .eq("github", hovered)
+      .single()
+      .then(({ data }) => setinfo(data));
+  }, [hovered]);
+
+  const linkedin = info?.linkedin;
+  const twitter = info?.twitter;
+  const insta = info?.insta;
+  const portfolio = info?.portfolio;
+  const external = info?.external;
 
   useEffect(() => {
     if (!hovered) return;
@@ -176,22 +198,31 @@ function City(props) {
 
       {hovered && (
         <div
+          onClick={(e) => e.stopPropagation()}
+          onDoubleClick={(e) => e.stopPropagation()}
           style={{
             position: "fixed",
             top: "20px",
             right: "20px",
             width: "220px",
             padding: "14px",
-            background: "rgba(0,0,0,0.7)",
+            background: "rgba(0,0,0,0.9)",
             borderRadius: "12px",
             color: "white",
             backdropFilter: "blur(10px)",
             zIndex: 1000,
             fontFamily: "monospace",
+            pointerEvents: "all",
           }}
         >
           {gitdata ? (
             <>
+              <p
+                style={{ margin: "10px", marginBottom: "10px" }}
+                className="flex items-center  text-white font-semibold"
+              >
+                Citizen details
+              </p>
               <div
                 style={{
                   display: "flex",
@@ -205,11 +236,17 @@ function City(props) {
                   style={{
                     width: "48px",
                     height: "48px",
-                    borderRadius: "50%",
-                    border: "2px solid #ff0000",
+                    borderRadius: "10px",
                   }}
                 />
-                <h3 style={{ margin: 0, color: "#ff0000", fontSize: "16px" }}>
+                <h3
+                  style={{
+                    margin: 0,
+                    color: "#ff0000",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                  }}
+                >
                   {hovered}
                 </h3>
               </div>
@@ -222,6 +259,45 @@ function City(props) {
               <p style={{ margin: "4px 0", fontSize: "13px" }}>
                 follow: {gitdata.followers} followers
               </p>
+              <button
+                style={{ marginTop: "10px" }}
+                onClick={() => openlink(linkedin)}
+                className=" opacity-50 hover:opacity-100 transistion-opacity bg-white rounded text-black w-full font-semibold "
+              >
+                Linkedin
+              </button>
+
+              <button
+                style={{ marginTop: "10px" }}
+                onClick={() => openlink(portfolio)}
+                className=" opacity-50 hover:opacity-100 transistion-opacity bg-white rounded text-black w-full font-semibold "
+              >
+                Portfolio
+              </button>
+
+              <button
+                style={{ marginTop: "10px" }}
+                onClick={() => openlink(twitter)}
+                className=" opacity-50 hover:opacity-100 transistion-opacity  bg-white rounded text-black w-full font-semibold "
+              >
+                Twitter
+              </button>
+
+              <button
+                style={{ marginTop: "10px" }}
+                onClick={() => openlink(insta)}
+                className=" opacity-50 hover:opacity-100 transistion-opacity  bg-white rounded text-black w-full font-semibold "
+              >
+                Instagram
+              </button>
+
+              <button
+                style={{ marginTop: "10px" }}
+                onClick={() => openlink(external)}
+                className=" opacity-50 hover:opacity-100 transistion-opacity  bg-white rounded text-black w-full font-semibold "
+              >
+                External
+              </button>
             </>
           ) : (
             <p style={{ opacity: 0.7, fontSize: "13px" }}>Loading...</p>
@@ -231,13 +307,12 @@ function City(props) {
       <Canvas
         style={{ height: "100vh" }}
         camera={{ position: [0, 1.5, 5], fov: 75 }}
-        onClick={() => {
+        onDoubleClick={() => {
           if (hovered) {
             window.open(`https://github.com/${hovered}`, "_blank");
           }
         }}
       >
-        <PointerLockControls />
         <Physics gravity={[0, -9.8, 0]}>
           <ambientLight intensity={0.8} />
           <Sky

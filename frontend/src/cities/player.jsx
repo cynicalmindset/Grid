@@ -10,7 +10,16 @@ export default function Player({ playerpos, spawn }) {
   const pitch = useRef(0);
 
   useEffect(() => {
+    let dragging = false;
+
+    const down = () => {
+      dragging = true;
+    };
+    const up = () => {
+      dragging = false;
+    };
     const mouse = (e) => {
+      if (!dragging) return;
       const sensi = 0.01;
       yaw.current -= e.movementX * sensi;
       pitch.current -= e.movementY * sensi;
@@ -19,10 +28,16 @@ export default function Player({ playerpos, spawn }) {
         Math.min(Math.PI / 2, pitch.current),
       );
     };
-    document.addEventListener("mousemove", mouse);
-    return () => document.removeEventListener("mousemove", mouse);
-  }, []);
 
+    document.addEventListener("mousedown", down);
+    document.addEventListener("mouseup", up);
+    document.addEventListener("mousemove", mouse);
+    return () => {
+      document.removeEventListener("mousedown", down);
+      document.removeEventListener("mouseup", up);
+      document.removeEventListener("mousemove", mouse);
+    };
+  }, []);
   const move = useRef({ front: false, back: false, left: false, right: false });
 
   useEffect(() => {

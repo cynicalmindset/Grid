@@ -67,10 +67,14 @@ export default function Dashboard(props) {
       <div className="dash-nav">
         <h1 className="text-white text-[24px] font-semibold">Grid.</h1>
         <div className="dash-btngrp">
-          <button className="dash-btn" onClick={() => props.onCity()}>
+          <button
+            className="dash-btn"
+            type="button"
+            onClick={() => props.onCity()}
+          >
             Enter City
           </button>
-          <button onClick={save} className="dash-btn">
+          <button onClick={save} type="button" className="dash-btn">
             Save
           </button>
         </div>
