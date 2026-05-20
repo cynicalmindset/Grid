@@ -1,29 +1,16 @@
-# Grid
+# React + Vite
 
-A 3D city where every GitHub developer gets a building. The height of your building is determined by your public repository count. Walk through the city, explore other developers profiles, and find your place in the grid.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Built with React Three Fiber, Rapier physics, Supabase, and nipplejs for mobile controls.
+Currently, two official plugins are available:
 
-## What it does
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-Every registered user gets a permanent address in the city. Your building grows taller as your GitHub repository count increases. Hover over any building to see the developer profile card with their stats and links. Click to visit their GitHub. On mobile, use the dual joystick controls to move and look around.
+## React Compiler
 
-## Stack
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-React, Three.js, React Three Fiber, Rapier, Supabase, nipplejs, Vite
+## Expanding the ESLint configuration
 
-## Environment Variables
-
-```env
-VITE_GITHUB_TOKEN
-VITE_PUBLIC_SUPABASE_URL
-VITE_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-```
-
-## Self Hosting
-
-This project is fully open source. If you think something could be better, feel free to contribute. The codebase is straightforward and contributions of any size are welcome.
-
-## License
-
-MIT
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
