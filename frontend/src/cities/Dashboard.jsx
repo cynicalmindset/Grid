@@ -77,6 +77,14 @@ export default function Dashboard(props) {
           <button onClick={save} type="button" className="dash-btn">
             Save
           </button>
+          <button
+          className="dash-btn"
+          type="button"
+            >
+              spank
+            
+          </button>
+
         </div>
       </div>
       <div className="dash-first">
@@ -126,6 +134,11 @@ export default function Dashboard(props) {
           value={form.external}
           onChange={(e) => setform({ ...form, external: e.target.value })}
         />
+        <input
+          placeholder="extra"
+          className="dash-input"
+        
+        ></input>
         <h1 className="text-white text-[10px] mt-[80px] text-center ">
           this project is completely opensource and if you think its not upto
           the mark , feel free to contribute
