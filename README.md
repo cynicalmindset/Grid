@@ -1,16 +1,71 @@
-# React + Vite
+# Grid
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A 3D city where every GitHub developer gets a building. The height of your building is determined by your public repository count. Walk through the city, explore other developers' profiles, and find your place in the Grid.
 
-Currently, two official plugins are available:
+## What is Grid?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Grid is an interactive 3D world built with React Three Fiber. Every registered user gets a building in the city — the more public repos you have on GitHub, the taller your building. Walk around, look at other developers' buildings, and click on them to see their profile details.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Dynamic city generation — buildings scale with GitHub repo count
+- First-person exploration — walk through the city with WASD or mobile joystick
+- Developer profiles — click any building to see GitHub stats, bio, and social links
+- Night atmosphere — stars, city lights, and point lights near street corners
+- Mobile support — dual joystick controls for movement and camera
+- NPC — a roaming character that reacts to collisions
+- Billboard ads — custom ad boards at street intersections
+- Physics — powered by Rapier for realistic collisions
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React Three Fiber — 3D rendering
+- @react-three/rapier — physics engine
+- @react-three/drei — helpers (Sky, Stars, useGLTF, useAnimations)
+- Supabase — auth and user profiles database
+- GitHub API — fetching repo counts and profile data
+- nipplejs — mobile joystick controls
+- Vite — build tool
+- TailwindCSS — UI styling
+- Vercel — deployment
+
+## Getting Started
+
+### Prerequisites
+- Node.js 16+
+- A Supabase project
+- A GitHub personal access token
+
+### Installation
+
+```bash
+git clone https://github.com/cynicalmindset/Grid.git
+cd Grid
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file in the root:
+
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_GITHUB_TOKEN=your_github_token
+```
+
+### Run locally
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+## Live Demo
+
+[grid-six-swart.vercel.app](https://grid-six-swart.vercel.app)
