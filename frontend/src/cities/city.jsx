@@ -1,16 +1,27 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import NPC from "./NPC.jsx";
+import adimage from "../assets/adv.png";
 import { RigidBody } from "@react-three/rapier";
 import { blockpos, floors, gridS, lcoalpos } from "./Math.js";
 import { Physics } from "@react-three/rapier";
 import { Canvas } from "@react-three/fiber";
-import { Stats, Sky, Stars, PointerLockControls } from "@react-three/drei";
+import * as THREE from "three";
+import {
+  Stats,
+  Sky,
+  Stars,
+  PointerLockControls,
+  useTexture,
+} from "@react-three/drei";
 import Block from "./block.jsx";
 import Player from "./player.jsx";
 import Pointer from "./Pointer.jsx";
 import { supabase } from "../supabase.js";
-import music from "../assets/Sounds/bg.mp3";
 
 function City(props) {
+  const texture = useMemo(() => {
+    return new THREE.TextureLoader().load(adimage);
+  }, []);
   const [hovered, sethovered] = useState(null);
   const [playerpos, setplayerpos] = useState({ x: 0, z: 0 });
   const [spawn, setspawn] = useState([0, 3, 0]);
@@ -120,9 +131,6 @@ function City(props) {
       } = await supabase.auth.getUser();
       const username = data.find((p) => p.id === user.id);
       const mypos = pos.find((p) => p[4] === username?.github);
-      console.log("my-position: ", mypos);
-      console.log("metadata:", user?.user_metadata);
-      console.log("pos sample:", pos[0], pos[1], pos[2]); // see what p[4] looks like
       if (mypos) {
         await supabase
           .from("profiles")
@@ -314,10 +322,11 @@ function City(props) {
         }}
       >
         <Physics gravity={[0, -9.8, 0]}>
-          <ambientLight intensity={0.8} />
+          <NPC />
+          <ambientLight intensity={1} />
           <Sky
             distance={450000}
-            sunPosition={[0, -1, 0]}
+            sunPosition={[1, 0.05, 0]}
             inclination={5}
             azimuth={0.5}
           />
@@ -428,10 +437,10 @@ function City(props) {
                       <meshStandardMaterial color="#555" />
                     </mesh>
                     <mesh position={[0, 3, 0]}>
-                      <sphereGeometry args={[0.15, 6, 6]} />
+                      <boxGeometry args={[1, 1.2, 0.1]} />
                       <meshStandardMaterial
-                        emissive="#ffd966"
-                        emissiveIntensity={2}
+                        map={texture}
+                        side={THREE.DoubleSide}
                       />
                     </mesh>
                     {(() => {
@@ -442,7 +451,7 @@ function City(props) {
                           position={[0, 3, 0]}
                           intensity={20}
                           distance={8}
-                          color="#ffd966"
+                          color="white"
                         />
                       ) : null;
                     })()}
