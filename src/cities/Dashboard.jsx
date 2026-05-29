@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 import Dotenv from "dotenv";
-import "./Dashboard.css";
 export default function Dashboard(props) {
   const [profile, setprofile] = useState(null);
   const [form, setform] = useState({
@@ -52,7 +51,7 @@ export default function Dashboard(props) {
   if (!profile || !Github)
     return (
       <p className="flex items-center  bg-[#1D1D1D] h-screen w-screen  text-[50px] text-center text-white ">
-        loading...
+        loading..
       </p>
     );
 
@@ -62,88 +61,198 @@ export default function Dashboard(props) {
   const repos = Github.public_repos;
   const username = profile.github || Github.login;
 
-  return (
-    <div className="dashmain">
-      <div className="dash-nav">
-        <h1 className="text-white text-[24px] font-semibold">Grid.</h1>
-        <div className="dash-btngrp">
-          <button
-            className="dash-btn"
-            type="button"
-            onClick={() => props.onCity()}
-          >
-            Enter City
-          </button>
-          <button onClick={save} type="button" className="dash-btn">
-            Save
-          </button>
-          <button
-          className="dash-btn"
-          type="button"
-            >
-              spank
-            
-          </button>
+  function Nav() {
+    return (
+      <nav
+        className="h-[52px] px-5 flex items-center justify-center gap-10 bg-[#161922] border-b border-[#2e3448]"
+        style={{
+          paddingLeft: "50px",
+          paddingRight: "50px",
+          justifyContent: "space-between",
+        }}
+      >
+        <div className="font-mono text-sm font-bold">Dashboard</div>
+        <p className="font-bold font-sans text-l text-white">hello {nae}</p>
+      </nav>
+    );
+  }
+  function Leftcol() {
+    return (
+      <div className="flex flex-col gap-3 ">
+        <Profilecard />
+        <Linkscard />
+      </div>
+    );
+  }
+  function Profilecard() {
+    return (
+      <div
+        className="bg-[#161922] border border-[#2e3448] rounded-2xl p-6 flex flex-col items-center gap-3 text-center min-w-[220px] max-w-[320px]"
+        style={{
+          padding: "24px",
+          marginTop: "20px",
+        }}
+      >
+        {/*avatar imagae wala foto samjhe lawde*/}
+        <div className="w-20 h-20 rounded-1xl">
+          <img src={pfp} className=" realtive h-full w-full rounded-2xl" />
+        </div>
 
-        </div>
+        <p className="font-mono font-bold text-xl">{nae}</p>
+        <p className="font-mono text-sm text-[#8b92a8]">Github - @{username}</p>
+
+        <span
+          className="text-l font-bold font-mono rounded-full border border-[#d4a017]/25 bg-[#d4a017]/10 text-[#d4a017]"
+          style={{ padding: "10px" }}
+        >
+          RANK - #98
+        </span>
+
+        <p className=" text-l leading-relaxed text-[#8b92a8]">{bio}</p>
+        <p className="text-xl text-white font-mon font-bold">
+          Total Projects - {repos}
+        </p>
+        <p className="text-xl text-white font-mon font-bold">
+          Leetcode - 196 Problems
+        </p>
       </div>
-      <div className="dash-first">
-        <div className="md:h-64 md:w-64 w-30 h-30">
-          {" "}
-          <img src={pfp} className="h-full w-full object-cover rounded-2xl" />
-        </div>
-        <div>
-          <h2 className="text-white text-[30px] font-semibold">name : {nae}</h2>
-          <h3 className="text-white text-[25px] font-semibold">
-            Total Repos : {repos}
-          </h3>
-          <h3 className="text-white text-[25px] font-semibold">
-            username : {username}
-          </h3>
-          <h2 className="text-white text-[20px]">Bio : {bio}</h2>
-        </div>
-      </div>
-      <div className="dash-second">
+    );
+  }
+
+  function Linkscard() {
+    return (
+      <div
+        className="bg-[#161922] border border-[#2e3448] rounded-2xl flex flex-col items-center gap-3 "
+        style={{ padding: "24px" }}
+      >
         <input
           placeholder="linkedin"
-          className="dash-input"
+          style={{
+            padding: "10px",
+          }}
+          className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
           value={form.linkedin}
           onChange={(e) => setform({ ...form, linkedin: e.target.value })}
         />
         <input
           placeholder="twitter"
-          className="dash-input"
-          value={form.twitter}
-          onChange={(e) => setform({ ...form, twitter: e.target.value })}
+          style={{
+            padding: "10px",
+          }}
+          className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
+          value={form.linkedin}
+          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
+        />
+        <input
+          placeholder="Portfolio"
+          style={{
+            padding: "10px",
+          }}
+          className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
+          value={form.linkedin}
+          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
         />
         <input
           placeholder="instagram"
-          className="dash-input"
-          value={form.insta}
-          onChange={(e) => setform({ ...form, insta: e.target.value })}
+          style={{
+            padding: "10px",
+          }}
+          className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
+          value={form.linkedin}
+          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
         />
         <input
-          placeholder="portfolio"
-          className="dash-input"
-          value={form.portfolio}
-          onChange={(e) => setform({ ...form, portfolio: e.target.value })}
+          placeholder="leetcode"
+          style={{
+            padding: "10px",
+          }}
+          className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
+          value={form.linkedin}
+          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
         />
         <input
           placeholder="external"
-          className="dash-input"
-          value={form.external}
-          onChange={(e) => setform({ ...form, external: e.target.value })}
+          style={{
+            padding: "10px",
+          }}
+          className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
+          value={form.linkedin}
+          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
         />
-        <input
-          placeholder="extra"
-          className="dash-input"
-        
-        ></input>
-        <h1 className="text-white text-[10px] mt-[80px] text-center ">
-          this project is completely opensource and if you think its not upto
-          the mark , feel free to contribute
-        </h1>
       </div>
+    );
+  }
+
+  function Centercol() {
+    return (
+      <div className="flex flex-col gap-3">
+        <Actionbar />
+      </div>
+    );
+  }
+  function Actionbar() {
+    return (
+      <div
+        className=" bg-[#161922] border border-[#2e3448] rounded-xl flex items-center justify-between"
+        style={{
+          minWidth: "500px",
+          justifyContent: "space-between",
+          paddingLeft: "20px",
+          paddingRight: "20px",
+          paddingTop: "10px ",
+          paddingBottom: "10px",
+        }}
+      >
+        <p className="font-mono font-bold text-white text-xl">Profile</p>
+        <div className="flex flex-row gap-3">
+          <button
+            className="text-white text-l rounded-l bg-[#1e2230] border border-[#2e3448] hover:bg-[#252a3a]
+            "
+            style={{
+              paddingBottom: "4px",
+              paddingTop: "4px",
+              paddingLeft: "6px",
+              paddingRight: "6px",
+            }}
+            onClick={() => props.onCity()}
+          >
+            Enter City
+          </button>
+          <button
+            className="text-white text-l rounded-l bg-[#1e2230] border border-[#2e3448] hover:bg-[#252a3a]"
+            style={{
+              paddingBottom: "4px",
+              paddingTop: "4px",
+              paddingLeft: "6px",
+              paddingRight: "6px",
+            }}
+            onClick={save}
+          >
+            Save
+          </button>
+          <button
+            className="text-white text-l rounded-l bg-[#1e2230] border border-[#2e3448] hover:bg-[#252a3a]"
+            style={{
+              paddingBottom: "4px",
+              paddingTop: "4px",
+              paddingLeft: "6px",
+              paddingRight: "6px",
+            }}
+          >
+            logout
+          </button>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="min-h-screen bg-[#0d0f14] font-sans text-[#e8eaf0]">
+      <Nav />
+      <main className="flex-row flex gap-8" style={{ padding: "20px" }}>
+        <Leftcol />
+        <Centercol />
+        <Leftcol />
+      </main>
     </div>
   );
 }
