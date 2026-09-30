@@ -140,8 +140,8 @@ export default function Dashboard(props) {
             padding: "10px",
           }}
           className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
-          value={form.linkedin}
-          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
+          value={form.twitter}
+          onChange={(e) => setform({ ...form, twitter: e.target.value })}
         />
         <input
           placeholder="Portfolio"
@@ -149,8 +149,8 @@ export default function Dashboard(props) {
             padding: "10px",
           }}
           className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
-          value={form.linkedin}
-          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
+          value={form.portfolio}
+          onChange={(e) => setform({ ...form, portfolio: e.target.value })}
         />
         <input
           placeholder="instagram"
@@ -158,8 +158,8 @@ export default function Dashboard(props) {
             padding: "10px",
           }}
           className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
-          value={form.linkedin}
-          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
+          value={form.insta}
+          onChange={(e) => setform({ ...form, insta: e.target.value })}
         />
         <input
           placeholder="leetcode"
@@ -167,17 +167,8 @@ export default function Dashboard(props) {
             padding: "10px",
           }}
           className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
-          value={form.linkedin}
-          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
-        />
-        <input
-          placeholder="external"
-          style={{
-            padding: "10px",
-          }}
-          className="border border-[#2e3448] rounded-l min-h-[50px] min-w-[240px] p-4"
-          value={form.linkedin}
-          onChange={(e) => setform({ ...form, linkedin: e.target.value })}
+          value={form.external}
+          onChange={(e) => setform({ ...form, external: e.target.value })}
         />
       </div>
     );
@@ -251,7 +242,6 @@ export default function Dashboard(props) {
       <main className="flex-row flex gap-8" style={{ padding: "20px" }}>
         <Leftcol />
         <Centercol />
-        <Leftcol />
       </main>
     </div>
   );
